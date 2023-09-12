@@ -2,10 +2,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
 main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+article {
+    flex: 1 !important;
 }
 
 .sidebar {
@@ -67,4 +74,8 @@ main {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
+}
+
+.footer {
+    margin-top: auto;
 }
