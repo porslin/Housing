@@ -1,7 +1,263 @@
-﻿@page "/homes/"
+﻿@page "/homes"
 
-<h1>Boendeobjekt</h1>
+<h1 class="pb-2">Boendeobjekt</h1>
+
+<!-- Property Input Form -->
+<form class="container">
+    <div class="form-group row pb-2">
+        <label for="propertyName" class="col-sm-2 col-form-label">Namn:</label>
+        <div class="col-sm-3">
+            <input type="text" id="propertyName" class="underlined-input rounded-0 form-control" @bind="propertyName" />
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="propertyNotering" class="col-sm-2 col-form-label">Notering:</label>
+        <div class="col-sm-3">
+            <input type="text" id="propertyNotering" class="underlined-input rounded-0 form-control" @bind="propertyNotering" />
+        </div>
+    </div>
+
+    <br /><br />
+
+    <div class="form-group row pb-2">
+        <label for="slutpris" class="col-sm-2 col-form-label">Slutpris:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="slutpris" class="form-control" @bind="slutpris" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="kontantinsats" class="col-sm-2 col-form-label">Kontantinsats:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="kontantinsats" class="form-control" @bind="kontantinsats" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input type="number" id="kontantinsatsKrTotal" class="form-control" value="@CalculateKrTotal(kontantinsats, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="lanebelopp" class="col-sm-2 col-form-label">Lånebelopp:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="lanebelopp" class="form-control" @bind="lanebelopp" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input type="number" id="lanebeloppKrTotal" class="form-control" value="@CalculateKrTotal(lanebelopp, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row pb-2">
+        <label class="col-sm-2 col-form-label">Belåningsgrad:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <span class="form-control border-0">@lanebelopp %</span>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row pb-2">
+        <label for="loptid" class="col-sm-2 col-form-label">Löptid:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="loptid" class="form-control" @bind="loptid" min="1" max="60" />
+                <div class="input-group-append">
+                    <span class="input-group-text">år</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="amortering" class="col-sm-2 col-form-label">Amortering:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="amortering" class="form-control" @bind="amortering" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input type="number" id="amorteringKrTotal" class="form-control" value="@CalculateKrTotal(amortering, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="amorteringKrMonth" class="form-control" value="@CalculateKrMonth(amortering, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr/mån</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="ranta" class="col-sm-2 col-form-label">Ränta:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="ranta" class="form-control" @bind="ranta" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input type="number" id="rantaKrTotal" class="form-control" value="@CalculateKrTotal(ranta, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="rantaKrMonth" class="form-control" value="@CalculateKrMonth(ranta, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr/mån</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row pb-2">
+        <label for="skattereduktion" class="col-sm-2 col-form-label">Skattereduktion:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="skattereduktion" class="form-control" @bind="skattereduktion" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input type="number" id="skattereduktionKrTotal" class="form-control" value="@CalculateKrTotal(skattereduktion, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="skattereduktionKrMonth" class="form-control" value="@CalculateKrMonth(skattereduktion, slutpris)" />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr/mån</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!-- Add other underlined input fields here -->
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="button" class="btn btn-primary" @onclick="AddProperty">Lägg till objekt</button>
+        </div>
+    </div>
+</form>
+
+<!-- Property List -->
+<div class="container mt-4">
+    <h2>Sparade objekt</h2>
+    <ul class="list-group">
+        @foreach (var property in properties)
+        {
+            <li class="list-group-item">@property.Name</li>
+            <!-- Display other property details here -->
+        }
+    </ul>
+</div>
+
+<!-- Calculation Results -->
+<div class="container mt-4">
+    <!-- Display calculations here -->
+</div>
 
 @code {
+    private string propertyName;
+    private string propertyNotering;
+    private decimal slutpris;
+    private decimal kontantinsats = 15;
+    private decimal lanebelopp = 85;
+    private decimal amortering;
+    private decimal ranta = 5;
+    private decimal skattereduktion;
+    private int loptid = 60;
 
+    private List<Property> properties = new List<Property>();
+
+    private class Property
+    {
+        public string Name { get; set; }
+        public string Notering { get; set; }
+        public decimal Slutpris { get; set; }
+        public decimal Kontantinsats { get; set; }
+        // Add other property details here
+    }
+
+    private void AddProperty()
+    {
+        properties.Add(new Property
+            {
+                Name = propertyName,
+                Notering = propertyNotering,
+                Slutpris = slutpris,
+                Kontantinsats = kontantinsats
+                // Set other property details here
+            });
+
+        // Reset input fields
+        propertyName = "";
+        propertyNotering = "";
+        slutpris = 0;
+        kontantinsats = 0;
+    }
+
+    private string CalculateKrTotal(decimal percent, decimal total)
+    {
+        decimal krTotal = (percent / 100) * total;
+        return krTotal.ToString("N0"); // Format krTotal as a number with thousands separator
+    }
+
+    private string CalculateKrMonth(decimal percent, decimal total)
+    {
+        decimal krTotal = (percent / 100) * total;
+        decimal krMonth = krTotal / 12; // Assuming a monthly calculation
+        return krMonth.ToString("N0"); // Format krMonth as a number with thousands separator
+    }
 }
