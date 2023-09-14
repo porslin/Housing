@@ -20,11 +20,13 @@
 
     <br /><br />
 
+    <h2 class="pb-2">Finansiering</h2>
+
     <div class="form-group row pb-2">
         <label for="slutpris" class="col-sm-2 col-form-label">Slutpris:</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="slutpris" class="form-control" @bind="slutpris" />
+                <input type="number" id="slutpris" class="form-control" @bind="slutpris" step="500" />
                 <div class="input-group-append">
                     <span class="input-group-text">kr</span>
                 </div>
@@ -36,7 +38,7 @@
         <label for="kontantinsats" class="col-sm-2 col-form-label">Kontantinsats:</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="kontantinsats" class="form-control" @bind="kontantinsats" />
+                <input type="number" id="kontantinsats" class="form-control" @bind="kontantinsats" min="15" max="100" />
                 <div class="input-group-append">
                     <span class="input-group-text">%</span>
                 </div>
@@ -56,7 +58,7 @@
         <label for="lanebelopp" class="col-sm-2 col-form-label">Lånebelopp:</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="lanebelopp" class="form-control" @bind="lanebelopp" />
+                <input type="number" id="lanebelopp" class="form-control" @bind="lanebelopp" min="0" max="85" />
                 <div class="input-group-append">
                     <span class="input-group-text">%</span>
                 </div>
@@ -72,13 +74,50 @@
         </div>
     </div>
 
+    <!-- Belåningsgrad -->
     <br />
 
     <div class="form-group row pb-2">
-        <label class="col-sm-2 col-form-label">Belåningsgrad:</label>
-        <div class="col-sm-3">
+    <label class="col-sm-2 col-form-label">Belåningsgrad:</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="form-control border-0">@lanebelopp %</span>
+        </div>
+    </div>
+    </div>
+
+    <!-- Personer inräknad -->
+    <br />
+
+    <div class="form-group row pb-2">
+        <label class="col-sm-2 col-form-label">Personer:</label>
+        <div class="col-sm-4">
             <div class="input-group">
-                <span class="form-control border-0">@lanebelopp %</span>
+                <span class="form-control border-0 fst-italic">här ska man kunna välja personer som lagts in</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total inkomst -->
+    <br />
+
+    <div class="form-group row pb-2">
+        <label class="col-sm-2 col-form-label">Totala årsinkomster:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <span class="form-control border-0 fst-italic">här blir en total på alla valda personers årsinkomster</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skuldkvot -->
+    <br />
+
+    <div class="form-group row pb-2">
+        <label class="col-sm-2 col-form-label">Skuldkvot:</label>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <span class="form-control border-0 fst-italic">räkning på total årsinkomst delat på lånebeloppet gånger 100 - upprundat till närmsta heltal</span>
             </div>
         </div>
     </div>
