@@ -47,7 +47,7 @@
         </div>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="downPaymentAmount" class="form-control" @bind="downPaymentAmount" readonly />
+                <input type="number" id="downPaymentAmount" class="form-control" @bind="downPaymentAmount" min="@MinDownPaymentAmount"  @oninput="UpdatePercentage" />
                 <div class="input-group-append">
                     <span class="input-group-text">kr</span>
                 </div>
@@ -74,9 +74,21 @@
 @code {
     private string propertyName;
     private string propertyNotes;
-    private int sellingPrice;
-    private int downPaymentPercentage = 15;
-    private int downPaymentAmount;
+    private decimal sellingPrice = 0;
+    private decimal downPaymentPercentage = 15;
+    private decimal downPaymentAmount;
+    private decimal minDownPaymentAmount;
+
+    private void CalculateDownPaymentAmount() => downPaymentAmount = sellingPrice * (downPaymentPercentage / 100.0m);
+
+    // Set minDownPaymentAmount to 15% of sellingPrice
+    private decimal MinDownPaymentAmount => 0.15m * sellingPrice;
+
+    private void UpdatePercentage()
+    {
+        // Calculate the down payment percentage based on the selling price and amount
+        downPaymentPercentage = (downPaymentAmount / sellingPrice) * 100;
+    }
 
     // Create a list to store saved properties
     private List<Property> properties = new List<Property>();
@@ -85,7 +97,7 @@
     {
         public string Name { get; set; }
         public string Notes { get; set; }
-        public int SellingPrice { get; set; }
+        public decimal SellingPrice { get; set; }
         // Add other property details here
     }
 
@@ -106,8 +118,4 @@
         sellingPrice = 0;
     }
 
-    private void CalculateDownPaymentAmount()
-    {
-        downPaymentAmount = (sellingPrice * downPaymentPercentage) / 100;
-    }
 }
