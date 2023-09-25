@@ -4,25 +4,38 @@
 
 <!-- Property Input Form -->
 <form class="container">
+
     <div class="form-group row pb-2">
-        <label for="propertyName" class="col-sm-2 col-form-label">Objektnamn:</label>
-        <div class="col-sm-3">
+        <label for="propertyName" class="col-sm-3 col-form-label">Objektnamn:</label>
+        <div class="col-sm-6">
             <input type="text" id="propertyName" class="form-control" @bind="propertyName" />
         </div>
     </div>
 
     <div class="form-group row pb-2">
-        <label for="propertyNotes" class="col-sm-2 col-form-label">Notering:</label>
-        <div class="col-sm-3">
+        <label for="propertyNotes" class="col-sm-3 col-form-label">Notering:</label>
+        <div class="col-sm-6">
             <input type="text" id="propertyNotes" class="form-control" @bind="propertyNotes" />
         </div>
     </div>
 
+    <h3 class="mt-4">Finansiering</h3>
+
+    <!-- Selling price -->
+    <div class="form-group row pb-2">
+        <label for="sellingPrice" class="col-sm-3 col-form-label">Utgångspris:</label>
+        <div class="col-sm-3">
+            <input type="number" id="sellingPrice" class="form-control" @bind="sellingPrice" />
+        </div>
+    </div>
+
+    <!-- Form submission -->
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="button" class="btn btn-primary" @onclick="AddProperty">Spara objekt</button>
         </div>
     </div>
+
 </form>
 
 <!-- Property List -->
@@ -34,6 +47,7 @@
 @code {
     private string propertyName;
     private string propertyNotes;
+    private decimal sellingPrice;
 
     // Create a list to store saved properties
     private List<Property> properties = new List<Property>();
@@ -42,6 +56,7 @@
     {
         public string Name { get; set; }
         public string Notes { get; set; }
+        public decimal SellingPrice { get; set; }
         // Add other property details here
     }
 
@@ -51,12 +66,14 @@
         properties.Add(new Property
             {
                 Name = propertyName,
-                Notes = propertyNotes
+                Notes = propertyNotes,
+                SellingPrice = sellingPrice
                 // Set other property details here
             });
 
         // Reset input fields
         propertyName = "";
         propertyNotes = "";
+        sellingPrice = 0;
     }
 }
