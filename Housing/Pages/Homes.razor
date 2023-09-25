@@ -26,13 +26,35 @@
         <label for="sellingPrice" class="col-sm-3 col-form-label">Utgångspris:</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="sellingPrice" class="form-control" @bind="sellingPrice" min="0" step="500" />
+                <input type="number" id="sellingPrice" class="form-control" @bind="sellingPrice" min="0" step="500" @oninput="CalculateDownPaymentAmount" />
                 <div class="input-group-append">
                     <span class="input-group-text">kr</span>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Down Payment -->
+    <div class="form-group row pb-2">
+        <label for="downPaymentPercentage" class="col-sm-3 col-form-label">Kontantinsats:</label>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="downPaymentPercentage" class="form-control" @bind="downPaymentPercentage" min="15" max="100" step="1" @oninput="CalculateDownPaymentAmount" />
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <input type="number" id="downPaymentAmount" class="form-control" @bind="downPaymentAmount" readonly />
+                <div class="input-group-append">
+                    <span class="input-group-text">kr</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Form submission -->
     <div class="form-group row">
@@ -53,6 +75,8 @@
     private string propertyName;
     private string propertyNotes;
     private int sellingPrice;
+    private int downPaymentPercentage = 15;
+    private int downPaymentAmount;
 
     // Create a list to store saved properties
     private List<Property> properties = new List<Property>();
@@ -80,5 +104,10 @@
         propertyName = "";
         propertyNotes = "";
         sellingPrice = 0;
+    }
+
+    private void CalculateDownPaymentAmount()
+    {
+        downPaymentAmount = (sellingPrice * downPaymentPercentage) / 100;
     }
 }
