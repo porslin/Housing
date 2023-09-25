@@ -26,7 +26,7 @@
         <label for="sellingPrice" class="col-sm-3 col-form-label">Utgångspris:</label>
         <div class="col-sm-3">
             <div class="input-group">
-                <input type="number" id="sellingPrice" class="form-control" @bind="sellingPrice" />
+                <input type="number" id="sellingPrice" class="form-control" @bind="sellingPrice" min="0" step="500" />
                 <div class="input-group-append">
                     <span class="input-group-text">kr</span>
                 </div>
@@ -52,7 +52,7 @@
 @code {
     private string propertyName;
     private string propertyNotes;
-    private decimal sellingPrice;
+    private int sellingPrice;
 
     // Create a list to store saved properties
     private List<Property> properties = new List<Property>();
@@ -61,7 +61,7 @@
     {
         public string Name { get; set; }
         public string Notes { get; set; }
-        public decimal SellingPrice { get; set; }
+        public int SellingPrice { get; set; }
         // Add other property details here
     }
 
